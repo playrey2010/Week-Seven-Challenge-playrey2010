@@ -41,11 +41,11 @@ header nav {
     border-color: #f5f5f5;
 }
 .btn-outline-success:hover {
-     /*color: color-hover;*/
-     background-color: #f5f5f5;
-     color: #209CEE;
-     border-color: #f5f5f5;
- }
+    /*color: color-hover;*/
+    background-color: #f5f5f5;
+    color: #209CEE;
+    border-color: #f5f5f5;
+}
 
 .footer {
     position: absolute;
