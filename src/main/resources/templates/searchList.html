@@ -42,31 +42,31 @@
                             <h3 class="w3-opacity" th:inline="text"><b>[[${job.title}]] @ [[${job.employer}]]</b></h3>
                             <h6 class="w3-text-teal" th:inline="text"><i class="fa fa-calendar fa-fw w3-margin-right"></i>[[${#temporals.format(job.postedDate,'EEEE, MMMM dd yyyy')}]] -
                                 <span class="w3-tag w3-blue w3-round">Recent posting!</span> - Contact: [[${job.phone}]] </h6>
+                            <hr>
                             <p th:inline="text" class="jobdescription">[[${job.description}]]</p>
-                            <h6 class="w3-text-teal" th:inline="text"><img src="https://res.cloudinary.com/playrey/image/upload/v1570149029/favicon_xp1wb2.ico" style="width: 28px"> -
+                            <h6 class="w3-text-teal" th:inline="text" style="text-align: center"><img src="https://res.cloudinary.com/playrey/image/upload/v1570149029/favicon_xp1wb2.ico" style="width: 40px;"> -
 
                                 <a th:href="@{/detail/{id}(id=${job.id})}">
                                     <button
                                             style="margin-right: auto; margin-left: auto"
-                                            class="w3-button w3-small w3-round w3-blue">Show details!
+                                            class="w3-button w3-large w3-round-xxlarge w3-blue">Show details!
                                     </button>
                                 </a>
                                 <span th:if="${user_id == job.user.id}">-
                                     <a th:href="@{/update/{id}(id=${job.id})}">
                                         <button
                                                 style="margin-right: auto; margin-left: auto"
-                                                class="w3-button w3-small w3-round w3-blue">Update
+                                                class="w3-button w3-large w3-round-xxlarge w3-blue">Update
                                         </button>
                                     </a>
                                     -
                                     <a th:href="@{/delete/{id}(id=${job.id})}">
                                         <button
                                                 style="margin-right: auto; margin-left: auto"
-                                                class="w3-button w3-small w3-round w3-red">Delete
+                                                class="w3-button w3-large w3-round-xxlarge w3-red">Delete
                                         </button>
                                     </a></span>
                             </h6>
-                            <hr>
                         </div>
 
                     </div>

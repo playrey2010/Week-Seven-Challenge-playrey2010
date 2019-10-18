@@ -36,6 +36,8 @@ public class HomeController {
     @RequestMapping("/")
     public String listJobs(Principal principal, Model model) {
         model.addAttribute("jobs", jobRepository.findAll());
+        model.addAttribute("anyjob", jobRepository.findAll().iterator().hasNext());
+
         if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
             String tempusername = principal.getName();
