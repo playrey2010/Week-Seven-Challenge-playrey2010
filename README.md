@@ -1,3 +1,5 @@
+
+![](https://res.cloudinary.com/playrey/image/upload/v1570149029/favicon_xp1wb2.ico)
 ### Updates for tomorrow
 - IMPORTANT: fix authorize on searchlist.html
 - Add username on navbar
@@ -15,6 +17,5 @@
 - Add profile page
 - Shift logout button to profile page, or in a dropdown profile button in navbar
 
-# Editor.md
 
-![](https://res.cloudinary.com/playrey/image/upload/v1570149029/favicon_xp1wb2.ico)
+
