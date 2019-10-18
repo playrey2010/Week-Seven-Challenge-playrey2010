@@ -55,7 +55,7 @@ public class HomeController {
         }
 
         model.addAttribute("job", new Job());
-        return "tobedel";
+        return "jobform";
     }
 
     @PostMapping("/processjob")
@@ -86,7 +86,7 @@ public class HomeController {
             model.addAttribute("user", userRepository.findByUsername(tempusername));
         }
         model.addAttribute("job", jobRepository.findById(id).get());
-        return "tobedel";
+        return "jobform";
     }
 
     @RequestMapping("/delete/{id}")

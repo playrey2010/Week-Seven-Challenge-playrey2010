@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <link rel="icon" href="https://res.cloudinary.com/playrey/image/upload/v1570149029/favicon_xp1wb2.ico">
-    <title>JH - Log in</title>
+    <title>JH - Add Job!</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
@@ -16,6 +17,15 @@
         }
 
         input.logininput[type=text], input.logininput[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 2px solid #209CEE;
+            box-sizing: border-box;
+        }
+
+        textarea.logininput {
             width: 100%;
             padding: 12px 20px;
             margin: 8px 0;
@@ -107,7 +117,6 @@
     </style>
     <!--    Google fonts!-->
     <link href="https://fonts.googleapis.com/css?family=Leckerli+One&display=swap" rel="stylesheet">
-
 </head>
 <header>
     <!-- Fixed navbar -->
@@ -122,13 +131,17 @@
                     <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li sec:authorize="!isAuthenticated()" class="nav-item">
-                    <a class="nav-link" href="/register">Sign up</a>
+                    <a class="nav-link" href="/login">Log in</a>
                 </li>
-                <li sec:authorize="isAuthenticated()" class="nav-item">
-                    <a class="nav-link" href="/add">Add a Job!</a>
-                </li>
-                <li sec:authorize="isAuthenticated()" class="nav-item">
-                    <a class="nav-link" href="/logout">Log-out</a>
+                <li sec:authorize="isAuthenticated()" th:inline="text" class="nav-item dropright">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        [[${user.username}]]
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/add">Add a Job!</a>
+                        <a class="dropdown-item" href="/logout">Log-out</a>
+
+                    </div>
                 </li>
             </ul>
             <form th:action="@{/processSearchbyTitle}" class="form-inline mt-2 mt-md-0" method="post">
@@ -138,50 +151,39 @@
         </div>
     </nav>
 </header>
-
 <body class="w3-light-grey">
 <div class="row">
     <div class="col-4">
     </div>
     <div class="col-4" style="margin-top: 2rem;">
         <div class="jumbotron">
-            <h1 class="display-4" style="text-align: center">Login Form</h1>
-            <div th:if="${param.error}">
-                Invalid username or password
-            </div>
-            <div th:if="${param.logout}">
-                You have been logged out
-            </div>
+            <h1 class="display-4" style="text-align: center">Job Form</h1>
             <div class="card" style="width: 18rem;">
-                <form class="loginform" th:action="@{/login}" method="post">
-                    <div class="imgcontainer">
-                        <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="Avatar" class="avatar">
-                    </div>
-
+                <form th:action="@{/processjob}" th:object="${job}" method="post">
+                    <input type="hidden" th:field="*{id}">
                     <div class="container">
-                        <label><b>Username</b></label>
-                        <input class="logininput" type="text" placeholder="Enter Username" name="username">
+                        <label><b>Job Title</b></label>
+                        <input class="logininput" type="text" placeholder="Type in the job title..." th:field="*{title}">
+                        <label><b>Employer</b></label>
+                        <input class="logininput" type="text" placeholder="Type in the employer..." th:field="*{employer}">
+                        <label><b>Contact: </b></label>
+                        <input class="logininput" type="text" placeholder="Type in your phone number..." th:field="*{phone}">
+                        <hr>
+                        <label><b>Description: </b></label>
+                        <textarea class="logininput" placeholder="Please add a description for your job post here..." th:field="*{description}"/>
 
-                        <label><b>Password</b></label>
-                        <input class="logininput" type="password" placeholder="Enter Password" name="password">
+                        <button class="loginbutton" type="submit">Add</button>
 
-                        <button class="loginbutton" type="submit">Login</button>
-                        <label>
-                            <input class="logininput" type="checkbox" checked="checked" name="remember"> Remember me
-                        </label>
-                    </div>
-
-                    <div class="container" style="background-color:#f1f1f1">
-                        <button type="button" class="cancelbtn">Cancel</button>
-                        <span class="psw">Forgot <a href="#">password?</a></span>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <div class="col-4">
+
     </div>
 </div>
+
 <br><br><br><br><br>
 
 <div class="container" id="footer-container">
@@ -196,7 +198,6 @@
         <!--        <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.static.css</a></p>-->
     </footer>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

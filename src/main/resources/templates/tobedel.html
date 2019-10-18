@@ -41,10 +41,18 @@
                         <div class="w3-container">
                             <form th:action="@{/processjob}" th:object="${job}" method="post">
                                 <input type="hidden" th:field="*{id}">
-                                <h3 class="w3-opacity"><b><input type="text" placeholder="Type in the job title..." th:field="*{title}"> @ <input type="text" placeholder="Type in the employer..." th:field="*{employer}"></b></h3>
+                                <h3 class="w3-opacity"><b>Job Title:<input type="text" placeholder="Type in the job title..." th:field="*{title}">
+                                    <span style="text-align: right">
+                                        @ Employer: <input type="text" placeholder="Type in the employer..."
+                                                           th:field="*{employer}"></b>
+                                    </span></h3>
                                 <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>TODAY -
                                     <span class="w3-tag w3-blue w3-round">Recent posting!</span> - Contact: <input style="width: 25%" type="text" placeholder="Type in your phone number..." th:field="*{phone}">
                                 </h6>
+                                <hr>
+                                <h3 class="w3-opacity" style="text-align: left"><strong>
+                                    Job description, skills required, etc. :
+                                </strong></h3>
                                 <p class="jobdescription"><textarea style="width: 100%" placeholder="Please add a description for your job post here..." th:field="*{description}"/></p>
                                 <div class="text-center">
                                     <button type="submit" style="margin-right: auto; margin-left: auto"

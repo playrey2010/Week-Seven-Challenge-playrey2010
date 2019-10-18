@@ -36,10 +36,9 @@
                         [[${user.username}]]
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="/add">Add a Job!</a>
+                        <a class="dropdown-item" href="/logout">Log-out</a>
+
                     </div>
                 </li>
                 <li sec:authorize="!isAuthenticated()" class="nav-item">
@@ -47,12 +46,6 @@
                 </li>
                 <li sec:authorize="!isAuthenticated()" class="nav-item">
                     <a class="nav-link" href="/register">Sign up</a>
-                </li>
-                <li sec:authorize="isAuthenticated()" class="nav-item">
-                    <a class="nav-link" href="/add">Add a Job!</a>
-                </li>
-                <li sec:authorize="isAuthenticated()" class="nav-item">
-                    <a class="nav-link" href="/logout">Log-out</a>
                 </li>
             </ul>
             <form th:action="@{/processSearchbyTitle}" class="form-inline mt-2 mt-md-0" method="post">
