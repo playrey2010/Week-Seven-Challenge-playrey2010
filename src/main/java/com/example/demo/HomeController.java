@@ -47,6 +47,9 @@ public class HomeController {
 
     @RequestMapping("/detail/{id}")
     public String showJob(@PathVariable("id") long id, Model model) {
+        if (userService.getUser() != null) {
+            model.addAttribute("user_id", userService.getUser().getId());
+        }
         model.addAttribute("job", jobRepository.findById(id).get());
         return "show";
     }
@@ -66,6 +69,9 @@ public class HomeController {
     // methods for processing the search
     @PostMapping("/processSearchbyTitle")
     public String processSearchbyTitle(Model model, @RequestParam(name = "search") String titleSearch) {
+        if (userService.getUser() != null) {
+            model.addAttribute("user_id", userService.getUser().getId());
+        }
         model.addAttribute("jobsByTitle", jobRepository.findByTitleContainingIgnoreCase(titleSearch));
         return "searchList";
     }

@@ -18,28 +18,7 @@
     <!--    Google fonts!-->
     <link href="https://fonts.googleapis.com/css?family=Leckerli+One&display=swap" rel="stylesheet">
 </head>
-<header>
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top">
-        <a class="navbar-brand" href="/">JobHop</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/add">Add a Job!</a>
-                </li>
-            </ul>
-            <form th:action="@{/processSearchbyTitle}" class="form-inline mt-2 mt-md-0" method="post">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search by job title..." aria-label="Search" name="search" required>
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-    </nav>
+<header th:replace="base :: navibar">
 </header>
 <body class="w3-light-grey">
 <div role="main" id="page-container" class="container">
@@ -61,25 +40,24 @@
                         <div class="w3-container">
                             <h3 class="w3-opacity" th:inline="text"><b>[[${job.title}]] @ [[${job.employer}]]</b></h3>
                             <h6 class="w3-text-teal" th:inline="text"><i class="fa fa-calendar fa-fw w3-margin-right"></i>[[${#temporals.format(job.postedDate,'EEEE, MMMM dd yyyy')}]] -
-                                <span class="w3-tag w3-blue w3-round">Recent posting!</span> - Contact: [[${job.phone}]] </h6>
+                                <span class="w3-tag w3-blue w3-round">Recent posting!</span> - Contact: [[${job.phone}]]</h6>
                             <p th:inline="text" class="jobdescription">[[${job.description}]]</p>
-                            <h6 class="w3-text-teal" th:inline="text"><img src="https://res.cloudinary.com/playrey/image/upload/v1570149029/favicon_xp1wb2.ico" style="width: 28px"> -
-                                <a th:href="@{/update/{id}(id=${job.id})}">
-                                    <button
-                                            style="margin-right: auto; margin-left: auto"
-                                            class="w3-button w3-small w3-round w3-blue">Update
-                                    </button>
-                                </a> - <a th:href="@{/detail/{id}(id=${job.id})}">
-                                    <button
-                                            style="margin-right: auto; margin-left: auto"
-                                            class="w3-button w3-small w3-round w3-blue">Show details!
-                                    </button>
-                                </a> - <a th:href="@{/delete/{id}(id=${job.id})}">
-                                    <button
-                                            style="margin-right: auto; margin-left: auto"
-                                            class="w3-button w3-small w3-round w3-red">Delete
-                                    </button>
-                                </a></h6>
+                            <h6 class="w3-text-teal" th:inline="text"><img src="https://res.cloudinary.com/playrey/image/upload/v1570149029/favicon_xp1wb2.ico" style="width: 28px">
+                                <span th:if="${user_id == job.user.id}">-
+                                    <a th:href="@{/update/{id}(id=${job.id})}">
+                                        <button
+                                                style="margin-right: auto; margin-left: auto"
+                                                class="w3-button w3-small w3-round w3-blue">Update
+                                        </button>
+                                    </a>
+                                    -
+                                    <a th:href="@{/delete/{id}(id=${job.id})}">
+                                        <button
+                                                style="margin-right: auto; margin-left: auto"
+                                                class="w3-button w3-small w3-round w3-red">Delete
+                                        </button>
+                                    </a></span>
+                            </h6>
                             <hr>
                         </div>
 
