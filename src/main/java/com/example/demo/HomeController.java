@@ -24,6 +24,9 @@ public class HomeController {
     @RequestMapping("/")
     public String listJobs(Model model) {
         model.addAttribute("jobs", jobRepository.findAll());
+        if (userService.getUser() != null) {
+            model.addAttribute("user_id", userService.getUser().getId());
+        }
         return "base";
     }
 
@@ -37,6 +40,7 @@ public class HomeController {
     public String processJob(@ModelAttribute Job job) {
         LocalDate tempDate = LocalDate.now();
         job.setPostedDate(tempDate);
+        job.setUser(userService.getUser());
         jobRepository.save(job);
         return "redirect:/";
     }
@@ -88,7 +92,7 @@ public class HomeController {
             userService.saveUser(user);
             model.addAttribute("message", "User Account Created");
         }
-        return "index";
+        return "redirect:/login";
     }
 
     @RequestMapping("/login")

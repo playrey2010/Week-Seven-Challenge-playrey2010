@@ -9,7 +9,7 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
+    <link rel="stylesheet" th:href="@{/css/base.css}">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -17,7 +17,6 @@
     </style>
     <!--    Google fonts!-->
     <link href="https://fonts.googleapis.com/css?family=Leckerli+One&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/base.css}">
 </head>
 <header>
     <!-- Fixed navbar -->
@@ -31,17 +30,8 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li sec:authorize="!isAuthenticated()" class="nav-item">
-                    <a class="nav-link" href="/login">Log in</a>
-                </li>
-                <li sec:authorize="!isAuthenticated()" class="nav-item">
-                    <a class="nav-link" href="/register">Sign up</a>
-                </li>
-                <li sec:authorize="isAuthenticated()" class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" href="/add">Add a Job!</a>
-                </li>
-                <li sec:authorize="isAuthenticated()" class="nav-item">
-                    <a class="nav-link" href="/logout">Log-out</a>
                 </li>
             </ul>
             <form th:action="@{/processSearchbyTitle}" class="form-inline mt-2 mt-md-0" method="post">
@@ -68,38 +58,24 @@
                 <div class="w3-col">
 
                     <div class="w3-container w3-card w3-white w3-margin-bottom">
-                        <h2 class="w3-text-grey w3-padding-16"><img src="https://res.cloudinary.com/playrey/image/upload/v1570149029/favicon_xp1wb2.ico" style="width: 40px"> &nbsp; List of
-                            available jobs!</h2>
-                        <div class="w3-container" th:each="job : ${jobs}">
-                            <h3 class="w3-opacity" th:inline="text"><b>[[${job.title}]] @ [[${job.employer}]]</b></h3>
-                            <h6 class="w3-text-teal" th:inline="text"><i class="fa fa-calendar fa-fw w3-margin-right"></i>[[${#temporals.format(job.postedDate,'EEEE, MMMM dd yyyy')}]] -
-                                <span class="w3-tag w3-blue w3-round">Recent posting!</span> - Contact: [[${job.phone}]] </h6>
-                            <p th:inline="text" class="jobdescription">[[${job.description}]]</p>
-                            <h6 class="w3-text-teal" th:inline="text"><img src="https://res.cloudinary.com/playrey/image/upload/v1570149029/favicon_xp1wb2.ico" style="width: 28px"> -
-
-                                <a th:href="@{/detail/{id}(id=${job.id})}">
-                                    <button
-                                            style="margin-right: auto; margin-left: auto"
-                                            class="w3-button w3-small w3-round w3-blue">Show details!
+                        <h2 class="w3-text-grey w3-padding-16"><img src="https://res.cloudinary.com/playrey/image/upload/v1570149029/favicon_xp1wb2.ico" style="width: 40px"> &nbsp;Add a job!</h2>
+                        <div class="w3-container">
+                            <form th:action="@{/processjob}" th:object="${job}" method="post">
+                                <input type="hidden" th:field="*{id}">
+                                <h3 class="w3-opacity"><b><input type="text" placeholder="Type in the job title..." th:field="*{title}"> @ <input type="text" placeholder="Type in the employer..." th:field="*{employer}"></b></h3>
+                                <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>TODAY -
+                                    <span class="w3-tag w3-blue w3-round">Recent posting!</span> - Contact: <input style="width: 25%" type="text" placeholder="Type in your phone number..." th:field="*{phone}">
+                                </h6>
+                                <p class="jobdescription"><textarea style="width: 100%" placeholder="Please add a description for your job post here..." th:field="*{description}"/></p>
+                                <div class="text-center">
+                                    <button type="submit" style="margin-right: auto; margin-left: auto"
+                                            class="w3-button w3-xxlarge w3-round w3-blue">Submit
                                     </button>
-                                </a>
-                                <span th:if="${user_id == job.user.id}">-
-                                    <a th:href="@{/update/{id}(id=${job.id})}">
-                                        <button
-                                                style="margin-right: auto; margin-left: auto"
-                                                class="w3-button w3-small w3-round w3-blue">Update
-                                        </button>
-                                    </a>
-                                    -
-                                    <a th:href="@{/delete/{id}(id=${job.id})}">
-                                        <button
-                                                style="margin-right: auto; margin-left: auto"
-                                                class="w3-button w3-small w3-round w3-red">Delete
-                                        </button>
-                                    </a></span>
-                            </h6>
+                                </div>
+                            </form>
                             <hr>
                         </div>
+
 
                     </div>
 
@@ -114,6 +90,7 @@
         </div>
     </div>
 
+
 </div>
 
 <br><br><br><br><br>
@@ -127,7 +104,7 @@
         <i class="fa fa-pinterest-p w3-hover-opacity"></i>
         <i class="fa fa-twitter w3-hover-opacity"></i>
         <i class="fa fa-linkedin w3-hover-opacity"></i>
-<!--        <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.static.css</a></p>-->
+        <!--        <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>-->
     </footer>
 </div>
 
