@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
@@ -21,17 +22,36 @@ public class HomeController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    RoleRepository roleRepository;
+
+    @PostConstruct
+    public void load() {
+        if(!roleRepository.findAll().iterator().hasNext()) {
+            roleRepository.save(new Role("USER"));
+            roleRepository.save(new Role("ADMIN"));
+        }
+    }
+
     @RequestMapping("/")
-    public String listJobs(Model model) {
+    public String listJobs(Principal principal, Model model) {
         model.addAttribute("jobs", jobRepository.findAll());
         if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
+            String tempusername = principal.getName();
+            model.addAttribute("user", userRepository.findByUsername(tempusername));
         }
         return "base";
     }
 
     @GetMapping("/add")
-    public String addJob(Model model) {
+    public String addJob(Principal principal, Model model) {
+        if (userService.getUser() != null) {
+            model.addAttribute("user_id", userService.getUser().getId());
+            String tempusername = principal.getName();
+            model.addAttribute("user", userRepository.findByUsername(tempusername));
+        }
+
         model.addAttribute("job", new Job());
         return "tobedel";
     }
@@ -46,16 +66,23 @@ public class HomeController {
     }
 
     @RequestMapping("/detail/{id}")
-    public String showJob(@PathVariable("id") long id, Model model) {
+    public String showJob(Principal principal, @PathVariable("id") long id, Model model) {
         if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
+            String tempusername = principal.getName();
+            model.addAttribute("user", userRepository.findByUsername(tempusername));
         }
         model.addAttribute("job", jobRepository.findById(id).get());
         return "show";
     }
 
     @RequestMapping("/update/{id}")
-    public String updateJob(@PathVariable("id") long id, Model model) {
+    public String updateJob(Principal principal, @PathVariable("id") long id, Model model) {
+        if (userService.getUser() != null) {
+            model.addAttribute("user_id", userService.getUser().getId());
+            String tempusername = principal.getName();
+            model.addAttribute("user", userRepository.findByUsername(tempusername));
+        }
         model.addAttribute("job", jobRepository.findById(id).get());
         return "tobedel";
     }
@@ -68,9 +95,11 @@ public class HomeController {
 
     // methods for processing the search
     @PostMapping("/processSearchbyTitle")
-    public String processSearchbyTitle(Model model, @RequestParam(name = "search") String titleSearch) {
+    public String processSearchbyTitle(Principal principal, Model model, @RequestParam(name = "search") String titleSearch) {
         if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
+            String tempusername = principal.getName();
+            model.addAttribute("user", userRepository.findByUsername(tempusername));
         }
         model.addAttribute("jobsByTitle", jobRepository.findByTitleContainingIgnoreCase(titleSearch));
         return "searchList";
